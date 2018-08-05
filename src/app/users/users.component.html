@@ -1,0 +1,57 @@
+<div *ngFor="let user of users; let i=index">
+
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="form-group">
+        <label class="center-block" for="username">User</label>
+        <input class="form-control" id="username" required minlength="4" [(ngModel)]="user.username" (blur)="apply()"
+          #username="ngModel">
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+          <div *ngIf="username.errors.required">
+            username is mandatory.
+          </div>
+          <div *ngIf="idRaccord.errors.minlength">
+            minimum length is de 4 characters.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="form-group">
+        <label class="center-block" for="firstname">User</label>
+        <input class="form-control" id="firstname" required minlength="4" [(ngModel)]="user.firstname" (blur)="apply()"
+          #firstname="ngModel">
+        <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+          <div *ngIf="firstname.errors.required">
+            firstname is mandatory.
+          </div>
+          <div *ngIf="idRaccord.errors.minlength">
+            minimum length is de 4 characters.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <div class="form-group">
+        <label class="center-block" for="lastname">Lastname</label>
+        <input class="form-control" id="lastname" required minlength="4" [(ngModel)]="user.lastname" (blur)="apply()"
+          #lastname="ngModel">
+        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-danger">
+          <div *ngIf="lastname.errors.required">
+            lastname is mandatory.
+          </div>
+          <div *ngIf="idRaccord.errors.minlength">
+            minimum length is de 4 characters.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2">
+      <div class="form-group">
+        <button class="btn button" id="update" (click)="update()" type="button">update</button>
+      </div>
+    </div>
+  </div>
+
+</div>

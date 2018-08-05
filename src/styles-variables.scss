@@ -1,0 +1,60 @@
+// $grid-columns: 24;
+// $grid-gutter-width: 10px;
+// $grid-gutter-width: 0.5rem;
+
+
+// $gridColumns: 24;
+// $gridColumnWidth: 15px;
+// $gridGutterWidth: 10px;
+// $fluidGridColumnWidth: 15px;
+// $fluidGridGutterWidth: 10px;
+
+$grid-columns: 24;
+$grid-column-width: 15px;
+$grid-gutter-width: 10px;
+$fluid-grid-column-width: 15px;
+$fluid-grid-gutter-width: 500px;
+
+$grid-breakpoints: (
+  xs: 0, // handset portrait (small, medium, large) | handset landscape (small)
+  sm: 600px, // handset landscape (medium, large) | tablet portrait(small, large)
+  md: 960px, //  tablet landscape (small, large)
+  lg: 1280px, // laptops and desktops
+  xl: 1600px // large desktops
+);
+
+$container-max-widths: (
+  sm: 600px,
+  md: 960px,
+  lg: 1280px,
+  xl: 1600px
+);
+
+$grid-gutter-width-base: 5px;
+$grid-gutter-widths: (
+  xs: $grid-gutter-width-base, // 30px
+  sm: $grid-gutter-width-base, // 30px
+  md: $grid-gutter-width-base, // 30px
+  lg: $grid-gutter-width-base, // 30px
+  xl: $grid-gutter-width-base  // 30px
+);
+
+// $grid-breakpoints: (
+//   // Extra small screen / phone
+//   xs: 0,
+//   // Small screen / phone
+//   sm: 576px,
+//   // Medium screen / tablet
+//   md: 768px,
+//   // Large screen / desktop
+//   lg: 992px,
+//   // Extra large screen / wide desktop
+//   xl: 1200px
+// );
+
+// $container-max-widths: (
+//   sm: 540px,
+//   md: 720px,
+//   lg: 960px,
+//   xl: 1140px
+// );
