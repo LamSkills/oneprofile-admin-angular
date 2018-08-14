@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { User, Status } from '../users/users.model';
@@ -12,7 +11,7 @@ const httpOptions = {
 @Injectable()
 export class UserService {
 
-  private url = 'api/users';
+  private url = 'api/users/unsecure';
 
   constructor(private http: HttpClient) { }
 

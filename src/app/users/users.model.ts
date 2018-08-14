@@ -10,25 +10,13 @@ export class User {
     firstname = '';
     @MinLength(1)
     lastname = '';
+    accounts = new Array<Role>();
     validate() {
         const errors = new Validator().validate(this);
         console.log('Invalid user : errors=', JSON.stringify(errors));
         return errors.length === 0;
     }
 }
-
-
-export class Account {
-    @MinLength(1)
-    name = 'default';
-    roles = new Array<Role>();
-    validate() {
-        const errors = new Validator().validate(this);
-        console.log('Invalid user : errors=', JSON.stringify(errors));
-        return errors.length === 0;
-    }
-}
-
 
 export class Role {
     rights = new Array<Right>();
@@ -39,6 +27,11 @@ export class Role {
 
 export class Right {
     rights = new Array<String>();
+}
+
+export class Item {
+    label: string;
+    value: string;
 }
 
 export enum STATUS {

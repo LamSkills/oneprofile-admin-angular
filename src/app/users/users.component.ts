@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-
-import { User, STATUS } from './users.model';
-
 import { ToastrService } from 'ngx-toastr';
+
+import { User, Item, STATUS } from './users.model';
+
 import { MessagingService } from '../service/messaging.service';
 import { UserService } from '../service/user.service';
 
@@ -13,8 +13,21 @@ import { UserService } from '../service/user.service';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
+  users: User[];
+
+  selectedUser: User;
+
+  displayDialog: boolean;
+
+  sortOptions: Item[];
+
+  sortKey: string;
+
+  sortField: string;
+
+  sortOrder: number;
+
   userSubscription;
-  users = new Array<User>();
 
   constructor(private userService: UserService,
               private messagingService: MessagingService,
@@ -31,15 +44,43 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.userService
       .users()
       .subscribe(users => {
-        users = users;
+        this.users = users;
       });
+
+    this.sortOptions = [
+        {label: 'Newest First', value: '!year'},
+        {label: 'Oldest First', value: 'year'},
+        {label: 'Brand', value: 'brand'}
+    ];
   }
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }
 
-  submit(user) {
+  selectUser(event: Event, user: User) {
+    this.selectedUser = user;
+    this.displayDialog = true;
+    event.preventDefault();
+  }
+
+  onSortChange(event) {
+    const value = event.value;
+
+    if (value.indexOf('!') === 0) {
+        this.sortOrder = -1;
+        this.sortField = value.substring(1, value.length);
+    } else {
+        this.sortOrder = 1;
+        this.sortField = value;
+    }
+  }
+
+  onDialogHide() {
+    this.selectedUser = null;
+  }
+
+  create(user) {
     this.toastr.info(`user.size ${this.users.length}!`);
     this.userService
       .create(user)

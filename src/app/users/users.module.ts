@@ -4,13 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+
+import { ToastrService } from 'ngx-toastr';
 
 import { UsersComponent } from './users.component';
 import { UserService } from '../service/user.service';
 import { MessagingService } from '../service/messaging.service';
 
 const routes: Routes =  [
-  { path: 'uers',    component: UsersComponent },
+  { path: 'users',    component: UsersComponent },
 ];
 
 @NgModule({
@@ -18,11 +24,15 @@ const routes: Routes =  [
     CommonModule,
     BrowserModule,
     FormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    DataViewModule,
+    DropdownModule,
+    PanelModule,
+    DialogModule
   ],
   declarations: [
     UsersComponent
   ],
-  providers: [UserService, MessagingService],
+  providers: [UserService, MessagingService, ToastrService],
 })
 export class UsersModule { }

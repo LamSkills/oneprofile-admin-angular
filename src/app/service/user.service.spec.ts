@@ -40,7 +40,7 @@ describe('UserService', () => {
   }));
 
   it('should do a post when calling users()', inject([HttpClient], (http: MockHttpClient) => {
-    const url = 'api/users';
+    const url = 'admin/api/users';
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };

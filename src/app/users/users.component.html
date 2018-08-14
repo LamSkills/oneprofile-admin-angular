@@ -1,57 +1,68 @@
-<div *ngFor="let user of users; let i=index">
-
-  <div class="row">
-    <div class="col-lg-2">
-      <div class="form-group">
-        <label class="center-block" for="username">User</label>
-        <input class="form-control" id="username" required minlength="4" [(ngModel)]="user.username" (blur)="apply()"
-          #username="ngModel">
-        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
-          <div *ngIf="username.errors.required">
-            username is mandatory.
-          </div>
-          <div *ngIf="idRaccord.errors.minlength">
-            minimum length is de 4 characters.
-          </div>
+<p-dataView #dv [value]="users" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="username"
+    [sortField]="sortField" [sortOrder]="sortOrder">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4">
+                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+                </div>
+                <div class="ui-g-6 ui-md-4 filter-container">
+                    <div style="position:relative">
+                        <input type="search" pInputText placeholder="Search by username" (keyup)="dv.filter($event.target.value)">
+                    </div>
+                </div>
+                <div class="ui-g-6 ui-md-4" style="text-align:right">
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="form-group">
-        <label class="center-block" for="firstname">User</label>
-        <input class="form-control" id="firstname" required minlength="4" [(ngModel)]="user.firstname" (blur)="apply()"
-          #firstname="ngModel">
-        <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-danger">
-          <div *ngIf="firstname.errors.required">
-            firstname is mandatory.
-          </div>
-          <div *ngIf="idRaccord.errors.minlength">
-            minimum length is de 4 characters.
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <div class="form-group">
-        <label class="center-block" for="lastname">Lastname</label>
-        <input class="form-control" id="lastname" required minlength="4" [(ngModel)]="user.lastname" (blur)="apply()"
-          #lastname="ngModel">
-        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-danger">
-          <div *ngIf="lastname.errors.required">
-            lastname is mandatory.
-          </div>
-          <div *ngIf="idRaccord.errors.minlength">
-            minimum length is de 4 characters.
-          </div>
-        </div>
-      </div>
-    </div>
+    </p-header>
+    <ng-template let-user pTemplate="listItem">
+        <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+            <div class="ui-g-12 ui-md-3" style="text-align:center">
+                <img src="assets/showcase/images/demo/uesrs/{{user.portrai}}.png">
+            </div>
+            <div class="ui-g-12 ui-md-8 user-details">
+                <div class="ui-g">
+                    <div class="ui-g-2 ui-sm-6">username: </div>
+                    <div class="ui-g-10 ui-sm-6"><b>{{user.username}}</b></div>
 
-    <div class="col-lg-2">
-      <div class="form-group">
-        <button class="btn button" id="update" (click)="update()" type="button">update</button>
-      </div>
-    </div>
-  </div>
+                    <div class="ui-g-2 ui-sm-6">Firstname: </div>
+                    <div class="ui-g-10 ui-sm-6"><b>{{user.firstname}}</b></div>
 
-</div>
+                    <div class="ui-g-2 ui-sm-6">Lastname: </div>
+                    <div class="ui-g-10 ui-sm-6"><b>{{user.lastname}}</b></div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-1 search-icon">
+                <button pButton type="button" icon="pi pi-search" (click)="selectUser($event, user)"></button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template let-user pTemplate="gridItem">
+        <div style="padding:.5em" class="ui-g-12 ui-md-3">
+            <p-panel [header]="user.username" [style]="{'text-align':'center'}">
+                <img src="assets/showcase/images/demo/users/{{user.portrait}}.png" width="60">
+                <div class="user-detail">{{user.firstname}} {{user.lastname}}</div>
+                <hr class="ui-widget-content" style="border-top:0">
+                <button pButton type="button" icon="pi pi-search" (click)="selectUser($event, user)" style="margin-top:0"></button>
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataView>
+
+<p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="225" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedUser">
+        <div class="ui-g-12" style="text-align:center">
+            <img src="assets/showcase/images/demo/users/{{selectedUser.brand}}.png">
+        </div>
+        <div class="ui-g-4">Username: </div>
+        <div class="ui-g-8">{{selectedUser.username}}</div>
+
+        <div class="ui-g-4">Firstname: </div>
+        <div class="ui-g-8">{{selectedUser.firstname}}</div>
+
+        <div class="ui-g-4">Lastname: </div>
+        <div class="ui-g-8">{{selectedUser.lastname}}</div>
+    </div>
+</p-dialog>

@@ -1,11 +1,11 @@
 {
-  "/prm/api/*": {
-    "target": "http://localhost:9080",
+  "/admin/api/*": {
+    "target": "http://localhost:8080/admin",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": false,
     "pathRewrite": {
-      "^/prm": ""
+      "^/admin/api": ""
     }
   }
 }
