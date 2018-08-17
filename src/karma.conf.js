@@ -15,17 +15,42 @@ module.exports = function (config) {
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
+    files: [
+      { pattern: './app/**/*.component.ts', watch: true},
+      { pattern: './app/**/*.service.ts', watch: false},
+      { pattern: './app/**/*.model.ts', watch: false},
+      { pattern: './app/**/*.module.ts', watch: false}
+    ],
+    angularCli: {
+      environment: 'dev'
+    },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly'],
-      fixWebpackSourcePaths: true
+      fixWebpackSourcePaths: true,
+      thresholds: {
+        statements: 70,
+        lines: 70,
+        branches: 70,
+        functions: 70
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: [
+      'ChromeDebugging',
+      'ChromeHeadless',
+      'Chrome'
+    ],
+    customLaunchers: {
+      ChromeDebugging: {
+        base: 'Chrome',
+        flags: [ '--remote-debugging-port=9333' ]
+      }
+    },
     singleRun: false
   });
 };
