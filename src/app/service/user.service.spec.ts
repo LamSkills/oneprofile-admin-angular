@@ -35,11 +35,11 @@ describe('UserService', () => {
     });
   });
 
-  it('should be created', inject([UserService], (service: UserService) => {
+  test('should be created', inject([UserService], (service: UserService) => {
     expect(service).toBeTruthy();
   }));
 
-  it('should do a post when calling users()', inject([HttpClient], (http: MockHttpClient) => {
+  test('should do a post when calling users()', inject([HttpClient], (http: MockHttpClient) => {
     const url = 'admin/api/users';
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })

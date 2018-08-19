@@ -15,9 +15,7 @@ describe('MessagingService', () => {
       providers: [MessagingService]
     });
   });
-});
 
-function tests() {
   it('should be created', inject([MessagingService], (service: MessagingService) => {
     expect(service).toBeTruthy();
   }));
@@ -29,7 +27,6 @@ function tests() {
         status = message.status;
         expect(status).toEqual('OK');
       });
-
       service.publish(new MessageMock('OK'));
   }));
 
@@ -40,7 +37,7 @@ function tests() {
         status = message.status;
         expect(status).toEqual('KO');
       });
-
       service.publish('OK');
   }));
-}
+});
+

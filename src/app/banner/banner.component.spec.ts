@@ -20,10 +20,6 @@ describe('BannerComponent', () => {
       });
     }));
 
-    tests();
-  });
-
-  function tests() {
     it('should create the app', async(() => {
       const app = fixture.debugElement.componentInstance;
       expect(app).toBeTruthy();
@@ -35,7 +31,6 @@ describe('BannerComponent', () => {
       const item = compiled.querySelector('div.row>div.col-lg-12>h1.header>a');
       expect(item).toBeTruthy();
     }));
-
-  }
+  });
 });
 

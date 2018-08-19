@@ -42,13 +42,6 @@ describe('AppComponent & AppModule', () => {
         });
     }));
 
-    tests();
-
-});
-
-
-function tests() {
-
     it('should create the app', async(() => {
         fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
@@ -67,4 +60,5 @@ function tests() {
         const compiled = fixture.debugElement.query(By.css('#top-title'));
         expect(compiled.nativeElement.textContent).toBe('Oneprofile');
     }));
-}
+
+});
