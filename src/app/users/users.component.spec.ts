@@ -2,6 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+
+
 // import { Observable, of } from 'rxjs';
 
 import { UsersComponent } from './users.component';
@@ -41,7 +47,13 @@ describe('UsersComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule ],
+      imports: [
+        FormsModule,
+        DataViewModule,
+        DropdownModule,
+        PanelModule,
+        DialogModule
+       ],
       declarations: [
         UsersComponent
        ],
@@ -69,36 +81,5 @@ describe('UsersComponent', () => {
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call submit() on button click', async(() => {
-    spyOn(component, 'submit');
-
-    const button = fixture.debugElement.query(By.css('button[id=submit]'));
-    button.nativeElement.click();
-
-    fixture.whenStable().then(() => {
-      expect(component.submit).toHaveBeenCalled();
-    });
-  }));
-
-  it('should not call users when form is invalid on submit button click', async(() => {
-    spyOn(userService, 'users');
-    component.submit(new User());
-
-    fixture.whenStable().then(() => {
-      expect(userService.users).toHaveBeenCalledTimes(0);
-    });
-  }));
-
-  it('should call create when submit() is called ', async(() => {
-    spyOn(userService.observable, 'subscribe');
-
-    User.prototype.validate = () => true;
-    component.submit(new User());
-
-    fixture.whenStable().then(() => {
-      expect(userService.observable.subscribe).toHaveBeenCalled();
-    });
-  }));
 
 });

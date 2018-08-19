@@ -32,7 +32,8 @@ describe('BannerComponent', () => {
     it('should render the logo', async(() => {
       fixture.detectChanges();
       const compiled = fixture.debugElement.nativeElement;
-      expect(compiled.querySelector('div.row>div.col-lg-12>img').alt).toContain('logo');
+      const item = compiled.querySelector('div.row>div.col-lg-12>h1.header>a');
+      expect(item).toBeTruthy();
     }));
 
   }
