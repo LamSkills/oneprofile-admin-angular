@@ -42,7 +42,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.userSubscription.unsubscribe();
   }
 
   getUsers() {
@@ -56,30 +55,30 @@ export class UsersComponent implements OnInit, OnDestroy {
   createUser(user) {
     this.userService
       .create(user)
-      .subscribe(result => {
-        if (result.status === STATUS.ERROR) {
-          this.toastr.success(`successfully created user ${user}!`);
-        } else {
-          this.toastr.warning(`Failed creating user ${user}`);
-        }
-    });
+      .toPromise()
+      .then(u => this.toastr.success(`successfully created user ${user}!`))
+      .catch(error => this.toastr.warning(`Failed creating user ${user} : ${error}`));
+  }
+
+  updateUser(user) {
+    this.userService
+      .update(user)
+      .toPromise()
+      .then(u => this.toastr.success(`successfully update user ${user}!`))
+      .catch(error => this.toastr.warning(`Failed updating user ${user} : ${error}`));
   }
 
   deleteUser(user) {
     this.userService
       .delete(user)
-      .subscribe(result => {
-        if (result.status === STATUS.ERROR) {
-          this.toastr.success(`successfully created user ${user}!`);
-        } else {
-          this.toastr.warning(`Failed creating user ${user}`);
-        }
-    });
+      .toPromise()
+      .then(count => this.toastr.success(`successfully deleted ${count} users with username ${user.username}!`))
+      .catch(error => this.toastr.warning(`Failed deleting user ${user} : ${error}`));
   }
 
   showDialogToAdd() {
     this.newUser = true;
-    this.user = {};
+    this.user = new User();
     this.displayDialog = true;
   }
 
@@ -90,7 +89,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.createUser(this.user);
       } else {
           users[this.users.indexOf(this.selectedUser)] = this.user;
-      }
+          this.updateUser(this.user);
+        }
       this.users = users;
       this.user = null;
       this.displayDialog = false;
@@ -111,7 +111,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   cloneUser(u: User): User {
-      const user = {};
+      const user = new User();
       for (const prop in u) {
         if (u.hasOwnProperty(prop)) {
           user[prop] = u[prop];

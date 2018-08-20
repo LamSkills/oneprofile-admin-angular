@@ -15,8 +15,16 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  create(user: User): Observable<Status> {
-    return this.http.post<Status>(this.url, user, httpOptions);
+  create(user: User): Observable<User> {
+    return this.http.post<User>(this.url, user, httpOptions);
+  }
+
+  update(user: User): Observable<User> {
+    return this.http.put<User>(this.url + '/' + user.username, user, httpOptions);
+  }
+
+  delete(user: User): Observable<void> {
+    return this.http.delete<void>(this.url + '/' + user.username, httpOptions);
   }
 
   delete(user: User): Observable<Status> {
