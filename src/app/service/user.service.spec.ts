@@ -46,7 +46,6 @@ describe('UserService', () => {
     };
 
     const results = http.get(url, httpOptions);
-    console.log(results.length);
     expect(results.pop().uid).toBe('testUserId');
   }));
 });
