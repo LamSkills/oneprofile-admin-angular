@@ -52,22 +52,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  createUser(user) {
-    this.userService
-      .create(user)
-      .toPromise()
-      .then(u => this.toastr.success(`successfully created user ${user}!`))
-      .catch(error => this.toastr.warning(`Failed creating user ${user} : ${error}`));
-  }
-
-  updateUser(user) {
-    this.userService
-      .update(user)
-      .toPromise()
-      .then(u => this.toastr.success(`successfully update user ${user}!`))
-      .catch(error => this.toastr.warning(`Failed updating user ${user} : ${error}`));
-  }
-
   deleteUser(user) {
     this.userService
       .delete(user)
@@ -85,12 +69,24 @@ export class UsersComponent implements OnInit, OnDestroy {
   save() {
       const users = [...this.users];
       if (this.newUser) {
-        users.push(this.user);
-        this.createUser(this.user);
+        this.userService
+          .create(this.user)
+          .toPromise()
+          .then(u => {
+            this.toastr.success(`successfully created user ${this.user}!`);
+            users.push(this.user);
+          })
+          .catch(error => this.toastr.warning(`Failed creating user : ${error}`));
       } else {
-          users[this.users.indexOf(this.selectedUser)] = this.user;
-          this.updateUser(this.user);
-        }
+        this.userService
+          .update(this.user)
+          .toPromise()
+          .then(u => {
+            this.toastr.success(`successfully update user ${this.user}!`);
+            users[this.users.indexOf(this.selectedUser)] = this.user;
+          })
+          .catch(error => this.toastr.warning(`Failed updating user : ${error}`));
+      }
       this.users = users;
       this.user = null;
       this.displayDialog = false;

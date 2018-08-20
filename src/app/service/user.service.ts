@@ -27,14 +27,6 @@ export class UserService {
     return this.http.delete<void>(this.url + '/' + user.username, httpOptions);
   }
 
-  delete(user: User): Observable<Status> {
-    return this.http.delete<Status>(this.url + '/' + user.username, httpOptions);
-  }
-
-  update(user: User): Observable<Status> {
-    return this.http.put<Status>(this.url + '/' + user.username, user, httpOptions);
-  }
-
   users(): Observable<Array<User>> {
     return this.http.get<Array<User>>(this.url, httpOptions);
   }
