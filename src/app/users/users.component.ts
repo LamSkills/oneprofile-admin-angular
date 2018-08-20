@@ -6,6 +6,11 @@ import { User, Item, STATUS } from './users.model';
 import { MessagingService } from '../service/messaging.service';
 import { UserService } from '../service/user.service';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas);
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -13,21 +18,13 @@ import { UserService } from '../service/user.service';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-  users: User[];
-
-  selectedUser: User;
 
   displayDialog: boolean;
-
-  sortOptions: Item[];
-
-  sortKey: string;
-
-  sortField: string;
-
-  sortOrder: number;
-
-  userSubscription;
+  user: User;
+  selectedUser: User;
+  users: User[];
+  newUser: boolean;
+  cols: any[];
 
   constructor(private userService: UserService,
               private messagingService: MessagingService,
@@ -35,53 +32,28 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getUsers();
 
-    this.userSubscription = this.messagingService.of(User)
-    .subscribe(user => {
-      this.users.push(user);
-    });
-
-    this.userService
-      .users()
-      .subscribe(users => {
-        this.users = users;
-      });
-
-    this.sortOptions = [
-        {label: 'Newest First', value: '!year'},
-        {label: 'Oldest First', value: 'year'},
-        {label: 'Brand', value: 'brand'}
+    this.cols = [
+      { field: 'username', header: 'username' },
+      { field: 'lastname', header: 'lastname' },
+      { field: 'firstname', header: 'firstname' }
     ];
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    // this.userSubscription.unsubscribe();
   }
 
-  selectUser(event: Event, user: User) {
-    this.selectedUser = user;
-    this.displayDialog = true;
-    event.preventDefault();
+  getUsers() {
+    this.userService
+    .users()
+    .subscribe(users => {
+      this.users = users;
+    });
   }
 
-  onSortChange(event) {
-    const value = event.value;
-
-    if (value.indexOf('!') === 0) {
-        this.sortOrder = -1;
-        this.sortField = value.substring(1, value.length);
-    } else {
-        this.sortOrder = 1;
-        this.sortField = value;
-    }
-  }
-
-  onDialogHide() {
-    this.selectedUser = null;
-  }
-
-  create(user) {
-    this.toastr.info(`user.size ${this.users.length}!`);
+  createUser(user) {
     this.userService
       .create(user)
       .subscribe(result => {
@@ -93,4 +65,58 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteUser(user) {
+    this.userService
+      .delete(user)
+      .subscribe(result => {
+        if (result.status === STATUS.ERROR) {
+          this.toastr.success(`successfully created user ${user}!`);
+        } else {
+          this.toastr.warning(`Failed creating user ${user}`);
+        }
+    });
+  }
+
+  showDialogToAdd() {
+    this.newUser = true;
+    this.user = {};
+    this.displayDialog = true;
+  }
+
+  save() {
+      const users = [...this.users];
+      if (this.newUser) {
+        users.push(this.user);
+        this.createUser(this.user);
+      } else {
+          users[this.users.indexOf(this.selectedUser)] = this.user;
+      }
+      this.users = users;
+      this.user = null;
+      this.displayDialog = false;
+  }
+
+  delete() {
+      const index = this.users.indexOf(this.selectedUser);
+      this.users = this.users.filter((val, i) => i !== index);
+      this.deleteUser(this.selectedUser);
+      this.user = null;
+      this.displayDialog = false;
+  }
+
+  onRowSelect(event) {
+      this.newUser = false;
+      this.user = this.cloneUser(event.data);
+      this.displayDialog = true;
+  }
+
+  cloneUser(u: User): User {
+      const user = {};
+      for (const prop in u) {
+        if (u.hasOwnProperty(prop)) {
+          user[prop] = u[prop];
+        }
+      }
+      return user;
+  }
 }

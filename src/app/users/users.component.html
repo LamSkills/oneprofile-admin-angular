@@ -1,68 +1,60 @@
-<p-dataView #dv [value]="users" [paginator]="true" [rows]="20" paginatorPosition="both" filterBy="username"
-    [sortField]="sortField" [sortOrder]="sortOrder">
-    <p-header>
-        <div class="ui-helper-clearfix">
-            <div class="ui-g">
-                <div class="ui-g-12 ui-md-4">
-                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+<p-table [columns]="cols" [value]="users" selectionMode="single" [(selection)]="selectedUser" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="15">
+        <ng-template pTemplate="caption">
+            List of users
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" let-rowData>
+            <div style="text-align:left">
+                <button type="button" pButton icon="fa fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+            </div>
+        </ng-template>    
+    </p-table>
+    
+    <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
+        <div class="ui-g ui-fluid" *ngIf="user">
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="vin">Username</label>
                 </div>
-                <div class="ui-g-6 ui-md-4 filter-container">
-                    <div style="position:relative">
-                        <input type="search" pInputText placeholder="Search by username" (keyup)="dv.filter($event.target.value)">
-                    </div>
+                <div class="ui-g-8">
+                    <input pInputText id="vin" [(ngModel)]="user.username" />
                 </div>
-                <div class="ui-g-6 ui-md-4" style="text-align:right">
-                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="year">Lastname</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="year" [(ngModel)]="user.lastname" />
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-4">
+                    <label for="brand">Firstname</label>
+                </div>
+                <div class="ui-g-8">
+                    <input pInputText id="brand" [(ngModel)]="user.firstname" />
                 </div>
             </div>
         </div>
-    </p-header>
-    <ng-template let-user pTemplate="listItem">
-        <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
-            <div class="ui-g-12 ui-md-3" style="text-align:center">
-                <img src="assets/showcase/images/demo/uesrs/{{user.portrai}}.png">
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" pButton icon="fa fa-close" (click)="delete()" label="Delete"></button>
+                <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save"></button>
             </div>
-            <div class="ui-g-12 ui-md-8 user-details">
-                <div class="ui-g">
-                    <div class="ui-g-2 ui-sm-6">username: </div>
-                    <div class="ui-g-10 ui-sm-6"><b>{{user.username}}</b></div>
-
-                    <div class="ui-g-2 ui-sm-6">Firstname: </div>
-                    <div class="ui-g-10 ui-sm-6"><b>{{user.firstname}}</b></div>
-
-                    <div class="ui-g-2 ui-sm-6">Lastname: </div>
-                    <div class="ui-g-10 ui-sm-6"><b>{{user.lastname}}</b></div>
-                </div>
-            </div>
-            <div class="ui-g-12 ui-md-1 search-icon">
-                <button pButton type="button" icon="pi pi-search" (click)="selectUser($event, user)"></button>
-            </div>
-        </div>
-    </ng-template>
-    <ng-template let-user pTemplate="gridItem">
-        <div style="padding:.5em" class="ui-g-12 ui-md-3">
-            <p-panel [header]="user.username" [style]="{'text-align':'center'}">
-                <img src="assets/showcase/images/demo/users/{{user.portrait}}.png" width="60">
-                <div class="user-detail">{{user.firstname}} {{user.lastname}}</div>
-                <hr class="ui-widget-content" style="border-top:0">
-                <button pButton type="button" icon="pi pi-search" (click)="selectUser($event, user)" style="margin-top:0"></button>
-            </p-panel>
-        </div>
-    </ng-template>
-</p-dataView>
-
-<p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="225" (onAfterHide)="onDialogHide()">
-    <div class="ui-g" *ngIf="selectedUser">
-        <div class="ui-g-12" style="text-align:center">
-            <img src="assets/showcase/images/demo/users/{{selectedUser.brand}}.png">
-        </div>
-        <div class="ui-g-4">Username: </div>
-        <div class="ui-g-8">{{selectedUser.username}}</div>
-
-        <div class="ui-g-4">Firstname: </div>
-        <div class="ui-g-8">{{selectedUser.firstname}}</div>
-
-        <div class="ui-g-4">Lastname: </div>
-        <div class="ui-g-8">{{selectedUser.lastname}}</div>
-    </div>
-</p-dialog>
+        </p-footer>
+    </p-dialog>

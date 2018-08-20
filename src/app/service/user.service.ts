@@ -11,12 +11,20 @@ const httpOptions = {
 @Injectable()
 export class UserService {
 
-  private url = 'api/users/unsecure';
+  private url = 'api/unsecure/users';
 
   constructor(private http: HttpClient) { }
 
   create(user: User): Observable<Status> {
     return this.http.post<Status>(this.url, user, httpOptions);
+  }
+
+  delete(user: User): Observable<Status> {
+    return this.http.delete<Status>(this.url + '/' + user.username, httpOptions);
+  }
+
+  update(user: User): Observable<Status> {
+    return this.http.put<Status>(this.url + '/' + user.username, user, httpOptions);
   }
 
   users(): Observable<Array<User>> {

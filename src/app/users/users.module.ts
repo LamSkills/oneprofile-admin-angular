@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { DataViewModule } from 'primeng/dataview';
-import { DropdownModule } from 'primeng/dropdown';
-import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -25,10 +24,9 @@ const routes: Routes =  [
     BrowserModule,
     FormsModule,
     RouterModule.forChild(routes),
-    DataViewModule,
-    DropdownModule,
-    PanelModule,
-    DialogModule
+    DialogModule,
+    TableModule,
+    ButtonModule
   ],
   declarations: [
     UsersComponent
