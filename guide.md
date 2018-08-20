@@ -13,7 +13,7 @@ This will install jest, @types/jest, ts-jest, jest-zone-patch as dependencies ne
 ```sh
 echo "
 import 'jest-preset-angular';
-" > setupJest.ts
+" > src/setupJest.ts
 ```
 
 add this to package.json:
