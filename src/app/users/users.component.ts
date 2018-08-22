@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { User, Item, STATUS } from './users.model';
@@ -16,7 +16,7 @@ library.add(fas);
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class UsersComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 
   displayDialog: boolean;
@@ -39,6 +39,10 @@ export class UsersComponent implements OnInit, OnDestroy {
       { field: 'lastname', header: 'lastname' },
       { field: 'firstname', header: 'firstname' }
     ];
+  }
+
+  ngAfterViewChecked() {
+    this.messagingService.publish('');
   }
 
   ngOnDestroy(): void {
@@ -73,8 +77,8 @@ export class UsersComponent implements OnInit, OnDestroy {
           .create(this.user)
           .toPromise()
           .then(u => {
-            this.toastr.success(`successfully created user ${this.user}!`);
-            users.push(this.user);
+            this.toastr.success(`successfully created user ${u}!`);
+            users.push(u);
           })
           .catch(error => this.toastr.warning(`Failed creating user : ${error}`));
       } else {
@@ -82,8 +86,8 @@ export class UsersComponent implements OnInit, OnDestroy {
           .update(this.user)
           .toPromise()
           .then(u => {
-            this.toastr.success(`successfully update user ${this.user}!`);
-            users[this.users.indexOf(this.selectedUser)] = this.user;
+            this.toastr.success(`successfully update user ${u}!`);
+            users[this.users.indexOf(this.selectedUser)] = u;
           })
           .catch(error => this.toastr.warning(`Failed updating user : ${error}`));
       }

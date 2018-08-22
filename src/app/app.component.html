@@ -3,9 +3,13 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <span id="top-title" class="text-uppercase">{{ title }}</span>
+      <nav [ngClass] = "'menu'">
+        <a routerLink="/" routerLinkActive="active-link">{{ title }}</a> | 
+        <a routerLink="/users" routerLinkActive="active-link">Users</a>
+     </nav>   
     </div>
   </div>
+
 
   <p>&nbsp;</p>
 
