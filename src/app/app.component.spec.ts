@@ -54,11 +54,4 @@ describe('AppComponent & AppModule', () => {
         expect(app.title).toEqual('Oneprofile');
     }));
 
-    it('should render title in a h1 tag', async(() => {
-        fixture = TestBed.createComponent(AppComponent);
-        fixture.detectChanges();
-        const compiled = fixture.debugElement.query(By.css('#top-title'));
-        expect(compiled.nativeElement.textContent).toBe('Oneprofile');
-    }));
-
 });

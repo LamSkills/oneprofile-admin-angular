@@ -2,13 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-import { DataViewModule } from 'primeng/dataview';
-import { DropdownModule } from 'primeng/dropdown';
-import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 
-// import { Observable, of } from 'rxjs';
+import { Observable, of, defer } from 'rxjs';
 
 import { UsersComponent } from './users.component';
 
@@ -19,19 +18,20 @@ import { MessagingService } from '../service/messaging.service';
 import { UserService } from '../service/user.service';
 
 
+export function fakeAsyncResponse<T>(data: T) {
+  // return defer(() => Promise.resolve(data));
+  return of(data);
+}
+
 class MockUserService {
-  observable = new Observable();
-  create(user: User) {
-    return this.observable;
+  create(user: User): Observable<User> {
+    return fakeAsyncResponse(user);
   }
-  users() {
-    return this.observable;
+  users(): Observable<Array<User>> {
+    return fakeAsyncResponse(new Array(new User()));
   }
 }
 
-class Observable {
-  subscribe(observer) {}
-}
 
 class MockToastrService {
   warning() {}
@@ -49,9 +49,8 @@ describe('UsersComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        DataViewModule,
-        DropdownModule,
-        PanelModule,
+        TableModule,
+        ButtonModule,
         DialogModule
        ],
       declarations: [
@@ -72,6 +71,7 @@ describe('UsersComponent', () => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.ngOnInit();
 
     messagingService = TestBed.get(MessagingService);
     userService = TestBed.get(UserService);
@@ -81,5 +81,69 @@ describe('UsersComponent', () => {
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create user async', () => {
+    const user = new User();
+    component.users = [];
+    user.firstname = 'kong';
+    user.lastname = 'to';
+    user.username = 'newlight77';
+    component.user = user;
+    component.newUser = true;
+
+    User.prototype.validate = () => true;
+    component.save();
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.users.length).toBe(1);
+    });
+
+  });
+
+  it('should create user async', async(async() => {
+    const user = new User();
+    component.users = [];
+    user.firstname = 'kong';
+    user.lastname = 'to';
+    user.username = 'newlight77';
+    component.user = user;
+    component.newUser = true;
+
+    User.prototype.validate = () => true;
+    component.save();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.users.length).toBe(1);
+  }));
+
+  it('should create user component async', async(async() => {
+    const user = new User();
+    component.users = [];
+    user.firstname = 'kong';
+    user.lastname = 'to';
+    user.username = 'newlight77';
+    component.user = user;
+    component.newUser = true;
+
+    // const username = fixture.debugElement.query(By.css('#username'));
+    // username.nativeElement.value = 'username';
+    // const firstname = fixture.debugElement.query(By.css('#firstname'));
+    // username.nativeElement.value = 'firstname';
+    // const lastname = fixture.debugElement.query(By.css('#lastname'));
+    // username.nativeElement.value = 'lastname';
+
+    User.prototype.validate = () => true;
+    component.save();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const userTable = fixture.debugElement.query(By.css('tbody[class=ui-table-tbody]'));
+    // const userTable = fixture.nativeElement.querySelectorAll('ui-table-tbody');
+    expect(userTable.children.length).toBe(1);
+  }));
 
 });

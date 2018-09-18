@@ -77,8 +77,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewChecked {
           .create(this.user)
           .toPromise()
           .then(u => {
-            this.toastr.success(`successfully created user ${u}!`);
             users.push(u);
+            this.toastr.success(`successfully created user ${u}!`);
           })
           .catch(error => this.toastr.warning(`Failed creating user : ${error}`));
       } else {
@@ -86,8 +86,8 @@ export class UsersComponent implements OnInit, OnDestroy, AfterViewChecked {
           .update(this.user)
           .toPromise()
           .then(u => {
-            this.toastr.success(`successfully update user ${u}!`);
             users[this.users.indexOf(this.selectedUser)] = u;
+            this.toastr.success(`successfully update user ${u}!`);
           })
           .catch(error => this.toastr.warning(`Failed updating user : ${error}`));
       }

@@ -26,28 +26,28 @@
     
     <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="300">
         <div class="ui-g ui-fluid" *ngIf="user">
-            <div class="ui-g-12">
-                <div class="ui-g-4">
+            <div class="ui-g-10">
+                <!-- <div class="ui-g-4">
+                </div> -->
+                <div class="ui-g-10">
                     <label for="vin">Username</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText id="vin" [(ngModel)]="user.username" />
+                    <input pInputText id="username" [(ngModel)]="user.username" />
                 </div>
             </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
+            <div class="ui-g-10">
+                <!-- <div class="ui-g-4">
+                </div> -->
+                <div class="ui-g-10">
                     <label for="year">Lastname</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText id="year" [(ngModel)]="user.lastname" />
+                    <input pInputText id="lastname" [(ngModel)]="user.lastname" />
                 </div>
             </div>
-            <div class="ui-g-12">
-                <div class="ui-g-4">
+            <div class="ui-g-10">
+                <!-- <div class="ui-g-4">
+                </div> -->
+                <div class="ui-g-10">
                     <label for="brand">Firstname</label>
-                </div>
-                <div class="ui-g-8">
-                    <input pInputText id="brand" [(ngModel)]="user.firstname" />
+                    <input pInputText id="firstname" [(ngModel)]="user.firstname" />
                 </div>
             </div>
         </div>
